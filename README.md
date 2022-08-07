@@ -22,5 +22,5 @@ npm start
 -   [ ] Build out generic Datasouce (i.e. custom GET request)
 -   [ ] Build out generic providder (i.e. custom POST request)
 -   [ ] Add post send webhook
--   [] Add optional JS pre-steps (i.e. format data between SQL query and send)
--   [] MySQL support
+-   [ ] Add optional JS pre-steps (i.e. format data between SQL query and send)
+-   [ ] MySQL support

@@ -15,14 +15,14 @@ app.get('/', (req, res, next) => {
 
 app.post('/query', async (req, res, next) => {
 	console.log(req.body);
-	const { query } = req.body;
+	const { query, source } = req.body;
 
 	const pool = connectDb({
-		DB_NAME: 'rysolvdev',
-		DB_HOST: 'rysolvdev.cbonmplcrvla.us-east-2.rds.amazonaws.com',
-		DB_PASSWORD: 'Readyplayer1',
-		DB_PORT: '5432',
-		DB_USER: 'rysolvdev',
+		DB_NAME: source.name,
+		DB_HOST: source.host,
+		DB_PASSWORD: source.password,
+		DB_PORT: source.port,
+		DB_USER: source.user,
 	});
 
 	try {
