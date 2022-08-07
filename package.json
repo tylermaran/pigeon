@@ -1,0 +1,19 @@
+{
+	"name": "pigeon",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"devDependencies": {
+		"lerna": "^5.3.0"
+	},
+	"version": "1.0.0",
+	"description": "sql to email",
+	"main": "index.js",
+	"scripts": {
+		"start": "npx lerna run start --stream",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC"
+}

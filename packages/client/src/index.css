@@ -1,0 +1,33 @@
+@import url('https://rsms.me/inter/inter.css');
+html { 
+  font-family: 'Inter', sans-serif; 
+}
+
+
+@supports (font-variation-settings: normal) {
+  html { 
+    font-family: 'Inter var', sans-serif; 
+  }
+}
+
+body {
+  margin: 0;
+  /* font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 300;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+a, a:hover, a:focus, a:active {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+}
