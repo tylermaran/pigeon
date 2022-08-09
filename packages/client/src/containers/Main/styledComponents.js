@@ -6,13 +6,13 @@ export const Layout = styled.div`
 `;
 
 export const SideBar = styled.div`
-	width: 25rem;
-	height: 100%;
 	background-color: #1f0038;
+	height: 100%;
+	width: 18rem;
 `;
 
 export const Container = styled.div`
 	display: flex;
 	height: 100%;
-	width: calc(100% - 25rem);
+	width: calc(100% - 18rem);
 `;

@@ -1,20 +1,23 @@
 import { useState } from 'react';
 
-import Header from '../../components/Header';
 import BaseContainer from '../../components/Containers';
-import SectionContainer from '../../components/Section';
+import Header from '../../components/Header';
+import PrimaryButton from '../../components/BaseUI/Buttons';
 import QueryContainer from '../../components/QueryContainer';
-import TemplateContainer from '../../components/TemplateContainer';
 import QueryTable from '../../components/QueryTable';
+import SectionContainer from '../../components/Section';
+import TemplateContainer from '../../components/TemplateContainer';
+import { Column, ColumnWrapper, ErrorBanner } from './styledComponents';
 
-// requests
+import { useUserContext } from '../../userContext';
 import { runQuery } from './requests';
 
-import { Column, ColumnWrapper, ErrorBanner } from './styledComponents';
 const Campaigns = () => {
 	const [query, setQuery] = useState('');
 	const [data, setData] = useState('');
 	const [error, setError] = useState('');
+
+	const { user, setUser } = useUserContext();
 
 	const handleSubmit = async () => {
 		setError('');
@@ -45,7 +48,9 @@ const Campaigns = () => {
 								setQuery={setQuery}
 								handleSubmit={handleSubmit}
 							/>
-							<button onClick={handleSubmit}>Run query</button>
+							<PrimaryButton onClick={handleSubmit}>
+								Run query
+							</PrimaryButton>
 						</div>
 						<QueryTable data={data} />
 						<ErrorBanner>{error}</ErrorBanner>
@@ -61,7 +66,7 @@ const Campaigns = () => {
 						<div>
 							Template
 							<TemplateContainer />
-							<button>Send</button>
+							<PrimaryButton>Send</PrimaryButton>
 						</div>
 					</Column>
 				</ColumnWrapper>

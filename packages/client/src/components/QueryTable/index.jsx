@@ -7,7 +7,6 @@ import {
 } from './styledComponents';
 
 const QueryTable = ({ data }) => {
-	console.log(data);
 	if (data.length > 0) {
 		const headers = Object.keys(data[0]).map((el) => {
 			return <StyledHeadCell key={el}>{el}</StyledHeadCell>;

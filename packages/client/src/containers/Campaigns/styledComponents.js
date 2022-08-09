@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 
 export const Column = styled.div`
+	border-right: ${({ border }) => (border ? '0.2rem solid #f1f1f1' : 'none')};
 	display: inline-flex;
 	flex-direction: column;
-	width: 50%;
-	border-right: ${({ border }) => (border ? '.2rem solid grey' : 'none')};
 	height: 100%;
-	padding: 1rem 2rem;
+	padding: ${({ border }) =>
+		border ? '1rem 1rem 1rem 0' : '1rem 0 1rem 1rem'};
+
+	width: 50%;
 `;
 
 export const ColumnWrapper = styled.div`
