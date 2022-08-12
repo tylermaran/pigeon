@@ -1,11 +1,11 @@
 import { StyledTextArea } from './styledComponents';
 
-const QueryContainer = ({ query, setQuery, handleSubmit }) => {
+const QueryContainer = ({ query, setQuery, handleQuery }) => {
 	const handleKeydown = (e) => {
 		const { key, ctrlKey } = e;
 		if (key === 'Enter' && ctrlKey) {
 			e.preventDefault();
-			handleSubmit();
+			handleQuery();
 		}
 	};
 

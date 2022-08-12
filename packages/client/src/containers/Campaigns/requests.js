@@ -1,11 +1,11 @@
-export const runQuery = async ({ query }) => {
+export const runQuery = async ({ campaign }) => {
 	const myHeaders = new Headers();
 	myHeaders.append('Content-Type', 'application/json');
 
 	const requestOptions = {
 		method: 'POST',
 		headers: myHeaders,
-		body: JSON.stringify({ query }),
+		body: JSON.stringify({ campaign }),
 		redirect: 'follow',
 	};
 

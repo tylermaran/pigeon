@@ -10,8 +10,10 @@ import { InputContainer } from './styledComponents';
 
 const EmailProviders = () => {
 	const initialState = {
+		NICKNAME: '',
 		API_KEY: '',
 		URL: '',
+		TYPE: 'POSTMARK',
 	};
 	const { user, setUser } = useUserContext();
 	const [form, setForm] = useState(initialState);
@@ -32,10 +34,10 @@ const EmailProviders = () => {
 		setForm(initialState);
 	};
 
-	const existingProviders = user.providers.map(({ URL, API_KEY }) => {
+	const existingProviders = user.providers.map(({ NICKNAME, TYPE }) => {
 		return (
-			<li key={URL}>
-				{URL} - {API_KEY}
+			<li key={NICKNAME}>
+				{TYPE} - {NICKNAME}
 			</li>
 		);
 	});
@@ -48,6 +50,12 @@ const EmailProviders = () => {
 				<ul>{existingProviders}</ul>
 				<h2>Add Provider</h2>
 				<InputContainer>
+					NICKNAME
+					<input
+						name="NICKNAME"
+						value={form.NICKNAME}
+						onChange={handleInput}
+					/>
 					API_KEY
 					<input
 						name="API_KEY"

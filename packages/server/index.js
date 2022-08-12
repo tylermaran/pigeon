@@ -14,18 +14,18 @@ app.get('/', (req, res, next) => {
 });
 
 app.post('/query', async (req, res, next) => {
-	console.log(req.body);
-	const { query, source } = req.body;
-
-	const pool = connectDb({
-		DB_NAME: source.name,
-		DB_HOST: source.host,
-		DB_PASSWORD: source.password,
-		DB_PORT: source.port,
-		DB_USER: source.user,
-	});
+	const { campaign } = req.body;
+	const { source, query } = campaign;
 
 	try {
+		const pool = connectDb({
+			DB_NAME: source.DB_NAME,
+			DB_HOST: source.DB_HOST,
+			DB_PASSWORD: source.DB_PASSWORD,
+			DB_PORT: source.DB_PORT,
+			DB_USER: source.DB_USER,
+		});
+
 		const client = await pool.connect();
 		const readOnly = 'SET SESSION CHARACTERISTICS AS TRANSACTION READ ONLY';
 		await client.query(readOnly);
@@ -38,7 +38,6 @@ app.post('/query', async (req, res, next) => {
 		});
 	} catch (error) {
 		console.log(error);
-		console.log(error.message);
 		return res.status(400).json({ error: error.message });
 	}
 });

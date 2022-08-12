@@ -1,21 +1,26 @@
 import styled from 'styled-components';
 
 export const Column = styled.div`
-	border-right: ${({ border }) => (border ? '0.2rem solid #f1f1f1' : 'none')};
-	display: inline-flex;
+	display: flex;
 	flex-direction: column;
 	height: 100%;
-	padding: ${({ border }) =>
-		border ? '1rem 1rem 1rem 0' : '1rem 0 1rem 1rem'};
-
-	width: 50%;
+	max-width: 60rem;
+	width: 100%;
 `;
 
 export const ColumnWrapper = styled.div`
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 `;
 
 export const ErrorBanner = styled.div`
 	color: red;
+`;
+
+export const StyledSelect = styled.select`
+	border-radius: 0.25rem;
+	border: 0.1rem solid #cbcbcb;
+	font-family: 'Inter var', sans-serif;
+	font-weight: 400;
+	padding: 0.25rem 3rem;
 `;

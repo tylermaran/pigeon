@@ -9,11 +9,13 @@ import { InputContainer } from './styledComponents';
 
 const DataSources = () => {
 	const initialState = {
+		NICKNAME: '',
 		DB_HOST: '',
 		DB_NAME: '',
 		DB_PASSWORD: '',
 		DB_PORT: '',
 		DB_USER: '',
+		TYPE: 'POSTGRES',
 	};
 	const { user, setUser } = useUserContext();
 	const [form, setForm] = useState(initialState);
@@ -34,10 +36,10 @@ const DataSources = () => {
 		setForm(initialState);
 	};
 
-	const existingSources = user.sources.map(({ DB_NAME, DB_USER }) => {
+	const existingSources = user.sources.map(({ TYPE, NICKNAME }) => {
 		return (
-			<li key={DB_NAME}>
-				{DB_NAME} - {DB_USER}
+			<li key={NICKNAME}>
+				{TYPE} - {NICKNAME}
 			</li>
 		);
 	});
@@ -48,8 +50,15 @@ const DataSources = () => {
 			<SectionContainer>
 				<h2>Existing Connections</h2>
 				<ul>{existingSources}</ul>
-				<h2>Add Connection</h2>
+
+				<h3>New Postgres Connection:</h3>
 				<InputContainer>
+					NICKNAME
+					<input
+						name="NICKNAME"
+						value={form.NICKNAME}
+						onChange={handleInput}
+					/>
 					DB_HOST
 					<input
 						name="DB_HOST"

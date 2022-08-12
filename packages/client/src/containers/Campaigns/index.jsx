@@ -1,76 +1,64 @@
-import { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 
 import BaseContainer from '../../components/Containers';
 import Header from '../../components/Header';
-import PrimaryButton from '../../components/BaseUI/Buttons';
-import QueryContainer from '../../components/QueryContainer';
-import QueryTable from '../../components/QueryTable';
-import SectionContainer from '../../components/Section';
-import TemplateContainer from '../../components/TemplateContainer';
-import { Column, ColumnWrapper, ErrorBanner } from './styledComponents';
 
+import { stepDictionary } from './constants';
 import { useUserContext } from '../../userContext';
 import { runQuery } from './requests';
 
 const Campaigns = () => {
-	const [query, setQuery] = useState('');
-	const [data, setData] = useState('');
-	const [error, setError] = useState('');
+	const active = 0;
+	const [step, setStep] = useState(0);
+	const [queryData, setQueryData] = useState('');
+	const [queryError, setQueryError] = useState('');
 
 	const { user, setUser } = useUserContext();
+	const { campaigns, sources, providers } = user;
+	const activeCampaign = campaigns[active];
 
-	const handleSubmit = async () => {
-		setError('');
-		setData('');
-		const { data, message } = await runQuery({ query });
-		if (message) setError(message);
-		if (data) setData(data);
+	const updateCampaign = (field, value) => {
+		const draft = { ...activeCampaign, [field]: value };
+		campaigns[active] = draft;
+		setUser((prevState) => ({
+			...prevState,
+			campaigns: campaigns,
+		}));
 	};
+
+	useEffect(() => {
+		if (queryData && queryData.length) {
+			updateCampaign('templateValues', Object.keys(queryData[0]));
+		}
+	}, [queryData]);
+
+	const handleQuery = async () => {
+		setQueryError('');
+		setQueryData('');
+		if (activeCampaign.query === '') {
+			return setQueryError('No query provided');
+		}
+		const { data, message } = await runQuery({ campaign: activeCampaign });
+		if (message) setQueryError(message);
+		if (data) setQueryData(data);
+	};
+
+	const ViewToRender = stepDictionary[step];
 
 	return (
 		<BaseContainer>
 			<Header title="Campaigns" />
-			<SectionContainer>
-				<h2>Send Email</h2>
-				<ColumnWrapper>
-					<Column border>
-						<div>
-							Data Source
-							<select name="source" id="">
-								<option>rysolv_local</option>
-								<option>rysolv_prod</option>
-							</select>
-						</div>
-						<div>
-							Query
-							<QueryContainer
-								query={query}
-								setQuery={setQuery}
-								handleSubmit={handleSubmit}
-							/>
-							<PrimaryButton onClick={handleSubmit}>
-								Run query
-							</PrimaryButton>
-						</div>
-						<QueryTable data={data} />
-						<ErrorBanner>{error}</ErrorBanner>
-					</Column>
-					<Column>
-						<div>
-							Email Provider
-							<select name="source" id="">
-								<option>postmark</option>
-								<option>courier</option>
-							</select>
-						</div>
-						<div>
-							Template
-							<TemplateContainer />
-							<PrimaryButton>Send</PrimaryButton>
-						</div>
-					</Column>
-				</ColumnWrapper>
-			</SectionContainer>
+			<ViewToRender
+				activeCampaign={activeCampaign}
+				handleQuery={handleQuery}
+				providers={providers}
+				queryData={queryData}
+				queryError={queryError}
+				setStep={setStep}
+				sources={sources}
+				updateCampaign={updateCampaign}
+			/>
 		</BaseContainer>
 	);
 };

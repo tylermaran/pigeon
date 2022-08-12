@@ -12,7 +12,15 @@ const UserContextProvider = ({ children }) => {
 	const [user, setUser] = useState({
 		sources: [],
 		providers: [],
-		campaigns: [],
+		campaigns: [
+			{
+				provider: null,
+				query: '',
+				source: null,
+				template: '',
+				templateValues: [],
+			},
+		],
 	});
 	return (
 		<UserContext.Provider value={{ user, setUser }}>
