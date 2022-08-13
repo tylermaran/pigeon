@@ -3,7 +3,7 @@ import { useUserContext } from '../../userContext';
 
 import BaseContainer from '../../components/Containers';
 import Header from '../../components/Header';
-import PrimaryButton from '../../components/BaseUI/Buttons';
+import { PrimaryButton } from '../../components/BaseUI/Buttons';
 import SectionContainer from '../../components/Section';
 
 import { InputContainer } from './styledComponents';

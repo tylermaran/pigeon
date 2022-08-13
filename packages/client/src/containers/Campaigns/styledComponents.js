@@ -9,6 +9,7 @@ export const Column = styled.div`
 `;
 
 export const ColumnWrapper = styled.div`
+	align-items: center;
 	display: flex;
 	flex-direction: column;
 `;

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const { Pool } = require('pg');
 
-const connectDb = ({ DB_NAME, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER }) => {
+const pgConnect = ({ DB_NAME, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER }) => {
 	const pool = new Pool({
 		database: DB_NAME,
 		host: DB_HOST,
@@ -28,4 +28,4 @@ const connectDb = ({ DB_NAME, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER }) => {
 	return pool;
 };
 
-module.exports = { connectDb };
+module.exports = { pgConnect };

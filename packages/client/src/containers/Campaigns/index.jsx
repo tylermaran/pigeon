@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import BaseContainer from '../../components/Containers';
 import Header from '../../components/Header';
@@ -11,7 +11,7 @@ import { runQuery } from './requests';
 const Campaigns = () => {
 	const active = 0;
 	const [step, setStep] = useState(0);
-	const [queryData, setQueryData] = useState('');
+	const [queryData, setQueryData] = useState(null);
 	const [queryError, setQueryError] = useState('');
 
 	const { user, setUser } = useUserContext();
@@ -27,12 +27,6 @@ const Campaigns = () => {
 		}));
 	};
 
-	useEffect(() => {
-		if (queryData && queryData.length) {
-			updateCampaign('templateValues', Object.keys(queryData[0]));
-		}
-	}, [queryData]);
-
 	const handleQuery = async () => {
 		setQueryError('');
 		setQueryData('');
@@ -40,8 +34,13 @@ const Campaigns = () => {
 			return setQueryError('No query provided');
 		}
 		const { data, message } = await runQuery({ campaign: activeCampaign });
+
 		if (message) setQueryError(message);
-		if (data) setQueryData(data);
+		const { result, rowCount, templateValues } = data;
+
+		updateCampaign('templateValues', templateValues);
+
+		if (data) setQueryData({ result, rowCount });
 	};
 
 	const ViewToRender = stepDictionary[step];

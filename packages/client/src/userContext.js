@@ -1,4 +1,5 @@
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext, useEffect } from 'react';
+import { getItem, setItem } from './utils/localStorage';
 
 const UserContext = createContext();
 
@@ -9,22 +10,40 @@ const UserContext = createContext();
  * - On setUser, update local storage with the current user.
  */
 const UserContextProvider = ({ children }) => {
-	const [user, setUser] = useState({
-		sources: [],
-		providers: [],
-		campaigns: [
-			{
-				provider: null,
-				query: '',
-				source: null,
-				template: '',
-				templateValues: [],
-			},
-		],
-	});
+	const [user, setUser] = useState(null);
+
+	// Initialize user from local storage
+	useEffect(() => {
+		const localUser = getItem('user');
+		if (localUser) {
+			setUser(localUser);
+		} else {
+			setUser({
+				sources: [],
+				providers: [],
+				campaigns: [
+					{
+						provider: null,
+						query: '',
+						source: null,
+						template: '',
+						templateValues: [],
+					},
+				],
+			});
+		}
+	}, []);
+
+	// Update local data on user change
+	useEffect(() => {
+		if (user !== null) {
+			setItem('user', JSON.stringify(user));
+		}
+	}, [user]);
+
 	return (
 		<UserContext.Provider value={{ user, setUser }}>
-			{children}
+			{user ? children : null}
 		</UserContext.Provider>
 	);
 };

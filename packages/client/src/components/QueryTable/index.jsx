@@ -1,4 +1,5 @@
 import {
+	ExtraRows,
 	StyledCell,
 	StyledHeadCell,
 	StyledRow,
@@ -7,22 +8,40 @@ import {
 } from './styledComponents';
 
 const QueryTable = ({ data }) => {
-	if (data.length > 0) {
-		const headers = Object.keys(data[0]).map((el) => {
-			return <StyledHeadCell key={el}>{el}</StyledHeadCell>;
+	const { result, rowCount } = data;
+
+	if (result.length > 0) {
+		const headers = Object.keys(result[0]).map((el, i) => {
+			return <StyledHeadCell key={'head=' + i}>{el}</StyledHeadCell>;
 		});
 
-		const rows = data.map((el, i) => {
-			const cells = Object.keys(el).map((key, i) => {
+		const rows = result.map((el, i) => {
+			const cells = Object.keys(el).map((key, j) => {
+				const getDisplayValue = (value) => {
+					if (value === null) return 'null';
+					if (value === '') return '""';
+					return value;
+				};
 				return (
-					<StyledCell key={el[key] + i}>
-						{el[key] || 'null'}
+					<StyledCell key={'cell-' + i + '-' + j}>
+						{getDisplayValue(el[key])}
 					</StyledCell>
 				);
 			});
-			const row = <StyledRow key={i}>{cells}</StyledRow>;
+			const row = <StyledRow key={'row-' + i}>{cells}</StyledRow>;
 			return row;
 		});
+
+		const additionalRows = () => {
+			if (rowCount > result.length) {
+				return (
+					<ExtraRows>
+						+ {rowCount - result.length} additional rows
+					</ExtraRows>
+				);
+			}
+			return null;
+		};
 
 		return (
 			<TableContainer>
@@ -32,6 +51,7 @@ const QueryTable = ({ data }) => {
 					</thead>
 					<tbody>{rows}</tbody>
 				</StyledTable>
+				{additionalRows()}
 			</TableContainer>
 		);
 	}

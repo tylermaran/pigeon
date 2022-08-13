@@ -8,11 +8,13 @@ export const Layout = styled.div`
 export const SideBar = styled.div`
 	background-color: #1f0038;
 	height: 100%;
-	width: 18rem;
+	position: fixed;
+	width: 16rem;
 `;
 
 export const Container = styled.div`
 	display: flex;
 	height: 100%;
-	width: calc(100% - 18rem);
+	margin-left: 16rem;
+	width: 100%;
 `;

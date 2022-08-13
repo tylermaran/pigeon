@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const { connectDb } = require('./db');
+const { pgConnect } = require('./postgresFunctions');
 
 // Ping
 app.get('/', (req, res, next) => {
@@ -18,7 +18,7 @@ app.post('/query', async (req, res, next) => {
 	const { source, query } = campaign;
 
 	try {
-		const pool = connectDb({
+		const pool = pgConnect({
 			DB_NAME: source.DB_NAME,
 			DB_HOST: source.DB_HOST,
 			DB_PASSWORD: source.DB_PASSWORD,
@@ -30,16 +30,25 @@ app.post('/query', async (req, res, next) => {
 		const readOnly = 'SET SESSION CHARACTERISTICS AS TRANSACTION READ ONLY';
 		await client.query(readOnly);
 		const data = await client.query(query);
-		console.log(Object.keys(data));
-		const { rows } = data;
+		const { rows, rowCount, fields } = data;
+
+		const templateValues = fields.map((el) => el.name);
 
 		return res.status(200).json({
-			data: rows,
+			data: { result: rows.slice(0, 100), templateValues, rowCount },
 		});
 	} catch (error) {
 		console.log(error);
 		return res.status(400).json({ error: error.message });
 	}
+});
+
+app.post('/test-connection', async (req, res, next) => {
+	return res.status(200);
+});
+
+app.post('/send-email', async (req, res, next) => {
+	return res.status(200);
 });
 
 app.use((req, res, next) => {

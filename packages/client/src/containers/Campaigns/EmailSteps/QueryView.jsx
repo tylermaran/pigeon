@@ -1,7 +1,8 @@
-import PrimaryButton from '../../../components/BaseUI/Buttons';
+import { PrimaryButton } from '../../../components/BaseUI/Buttons';
 import QueryContainer from '../../../components/QueryContainer';
 import QueryTable from '../../../components/QueryTable';
 import SectionContainer from '../../../components/Section';
+import Tag from '../../../components/BaseUI/Tags';
 import {
 	Column,
 	ColumnWrapper,
@@ -9,7 +10,12 @@ import {
 	StyledSelect,
 } from '../styledComponents';
 
-import { DataWrapper, QueryWrapper } from './styledComponents';
+import {
+	DataWrapper,
+	QueryWrapper,
+	SubTitle,
+	TagWrapper,
+} from './styledComponents';
 
 const QueryView = ({
 	activeCampaign,
@@ -27,44 +33,76 @@ const QueryView = ({
 
 	const emailSources = sources.map((el, i) => {
 		return (
-			<option value={i}>
+			<option key={el.NICKNAME} value={i}>
 				{el.TYPE}-{el.NICKNAME}
 			</option>
 		);
 	});
 
+	const templateArray = activeCampaign?.templateValues.map((el) => {
+		return <Tag key={el} label={el} />;
+	});
+
 	return (
 		<SectionContainer>
 			<ColumnWrapper>
-				<h2>Query Data</h2>
-
 				<Column>
+					<h2>Query Data</h2>
 					<div>
-						Data Source
+						<SubTitle>Data Source</SubTitle>
 						<StyledSelect
 							name="source"
 							onChange={(e) => setSource(e.target.value)}
+							defaultValue={'DEFAULT'}
 						>
-							<option value="" selected disabled hidden>
+							<option value={'DEFAULT'} disabled hidden>
 								Select Source
 							</option>
 							{emailSources}
 						</StyledSelect>
 					</div>
 					<QueryWrapper>
-						Query
+						<SubTitle>Query</SubTitle>
 						<QueryContainer
 							query={activeCampaign.query}
 							setQuery={(e) => updateCampaign('query', e)}
 							handleQuery={handleQuery}
 						/>
 						<PrimaryButton onClick={handleQuery}>
-							Run query
+							Run query (
+							<span
+								style={{
+									lineHeight: '1rem',
+									fontSize: '.75rem',
+								}}
+							>
+								⌘
+							</span>
+							<span
+								style={{
+									verticalAlign: 'middle',
+									lineHeight: '1rem',
+									fontSize: '1.5rem',
+								}}
+							>
+								↵
+							</span>
+							)
 						</PrimaryButton>
 					</QueryWrapper>
-					<DataWrapper>
-						<QueryTable data={queryData} />
-					</DataWrapper>
+
+					{!!templateArray.length && (
+						<>
+							<SubTitle>Fields:</SubTitle>
+							<TagWrapper>{templateArray}</TagWrapper>
+						</>
+					)}
+
+					{queryData && (
+						<DataWrapper>
+							<QueryTable data={queryData} />
+						</DataWrapper>
+					)}
 					<ErrorBanner>{queryError}</ErrorBanner>
 				</Column>
 			</ColumnWrapper>

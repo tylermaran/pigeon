@@ -1,4 +1,4 @@
-import PrimaryButton from '../../../components/BaseUI/Buttons';
+import { PrimaryButton } from '../../../components/BaseUI/Buttons';
 import TemplateContainer from '../../../components/TemplateContainer';
 import SectionContainer from '../../../components/Section';
 import { Column, ColumnWrapper, StyledSelect } from '../styledComponents';

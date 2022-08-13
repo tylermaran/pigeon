@@ -3,7 +3,7 @@ import { useUserContext } from '../../userContext';
 
 import BaseContainer from '../../components/Containers';
 import Header from '../../components/Header';
-import PrimaryButton from '../../components/BaseUI/Buttons';
+import { PrimaryButton } from '../../components/BaseUI/Buttons';
 import SectionContainer from '../../components/Section';
 import { InputContainer } from './styledComponents';
 
@@ -36,10 +36,24 @@ const DataSources = () => {
 		setForm(initialState);
 	};
 
+	const handleDelete = (nickname) => {
+		const index = user.sources.findIndex((el) => el.NICKNAME === nickname);
+		setUser((prevState) => ({
+			...prevState,
+			sources: user.sources.splice(index, 1),
+		}));
+	};
+
 	const existingSources = user.sources.map(({ TYPE, NICKNAME }) => {
 		return (
 			<li key={NICKNAME}>
 				{TYPE} - {NICKNAME}
+				<button
+					value={NICKNAME}
+					onClick={(el) => handleDelete(el.target.value)}
+				>
+					Delete
+				</button>
 			</li>
 		);
 	});
