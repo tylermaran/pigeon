@@ -26,7 +26,7 @@ const UserContextProvider = ({ children }) => {
 						provider: null,
 						query: '',
 						source: null,
-						template: '',
+						template: { subject: '', body: '' },
 						templateValues: [],
 					},
 				],

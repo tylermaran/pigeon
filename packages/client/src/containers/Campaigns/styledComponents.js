@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { SecondaryButton } from '../../components/BaseUI/Buttons';
+
 export const Column = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -24,4 +26,12 @@ export const StyledSelect = styled.select`
 	font-family: 'Inter var', sans-serif;
 	font-weight: 400;
 	padding: 0.25rem 3rem;
+`;
+
+export const StyledButton = styled(SecondaryButton)``;
+
+export const StepNav = styled.div`
+	display: flex;
+	justify-content: space-between;
+	padding: 0 0 2rem 0;
 `;

@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 
 export const StyledButton = styled.button`
-	padding: 0.5rem 2rem;
-	color: white;
-	background-color: #420076;
+	background-color: ${({ disabled }) => (disabled ? 'grey' : '#420076')};
 	border-radius: 0.25rem;
 	border: none;
+	color: white;
+	padding: 0.5rem 2rem;
 
 	:hover {
-		cursor: pointer;
+		cursor: ${({ disabled }) => (disabled ? 'inherit' : 'pointer')};
 	}
 	:active {
-		background-color: #420076ed;
+		background-color: ${({ disabled }) =>
+			disabled ? 'grey' : '#420076ed'};
 	}
 `;

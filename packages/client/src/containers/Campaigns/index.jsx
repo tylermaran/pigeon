@@ -30,17 +30,27 @@ const Campaigns = () => {
 	const handleQuery = async () => {
 		setQueryError('');
 		setQueryData('');
+		updateCampaign('templateValues', []);
 		if (activeCampaign.query === '') {
 			return setQueryError('No query provided');
 		}
-		const { data, message } = await runQuery({ campaign: activeCampaign });
 
-		if (message) setQueryError(message);
-		const { result, rowCount, templateValues } = data;
+		try {
+			const { data = null, message } = await runQuery({
+				campaign: activeCampaign,
+			});
 
-		updateCampaign('templateValues', templateValues);
-
-		if (data) setQueryData({ result, rowCount });
+			if (message) {
+				setQueryError(message);
+			} else {
+				const { result, rowCount, templateValues } = data;
+				updateCampaign('templateValues', templateValues);
+				setQueryData({ result, rowCount });
+			}
+		} catch (error) {
+			console.log(error);
+			setQueryError(error);
+		}
 	};
 
 	const ViewToRender = stepDictionary[step];

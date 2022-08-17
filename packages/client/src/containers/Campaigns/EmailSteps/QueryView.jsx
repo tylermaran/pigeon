@@ -3,13 +3,15 @@ import QueryContainer from '../../../components/QueryContainer';
 import QueryTable from '../../../components/QueryTable';
 import SectionContainer from '../../../components/Section';
 import Tag from '../../../components/BaseUI/Tags';
+
 import {
 	Column,
 	ColumnWrapper,
 	ErrorBanner,
+	StepNav,
+	StyledButton,
 	StyledSelect,
 } from '../styledComponents';
-
 import {
 	DataWrapper,
 	QueryWrapper,
@@ -22,11 +24,10 @@ const QueryView = ({
 	handleQuery,
 	queryData,
 	queryError,
+	setStep,
 	sources,
 	updateCampaign,
 }) => {
-	console.log(activeCampaign);
-
 	const setSource = (i) => {
 		updateCampaign('source', sources[i]);
 	};
@@ -47,6 +48,15 @@ const QueryView = ({
 		<SectionContainer>
 			<ColumnWrapper>
 				<Column>
+					<StepNav>
+						<StyledButton disabled>ᐊ Back</StyledButton>
+						<StyledButton
+							disabled={activeCampaign.templateValues?.length < 1}
+							onClick={() => setStep(1)}
+						>
+							Template ᐅ
+						</StyledButton>
+					</StepNav>
 					<h2>Query Data</h2>
 					<div>
 						<SubTitle>Data Source</SubTitle>

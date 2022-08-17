@@ -5,5 +5,5 @@ import TemplateView from './EmailSteps/TemplateView';
 export const stepDictionary = {
 	0: QueryView,
 	1: TemplateView,
-	3: ConfirmationView,
+	2: ConfirmationView,
 };
