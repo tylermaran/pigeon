@@ -22,12 +22,12 @@ import {
 const QueryView = ({
 	activeCampaign,
 	handleQuery,
-	queryData,
 	queryError,
 	setStep,
 	sources,
 	updateCampaign,
 }) => {
+	const { queryData } = activeCampaign;
 	const setSource = (i) => {
 		updateCampaign('source', sources[i]);
 	};
@@ -40,7 +40,7 @@ const QueryView = ({
 		);
 	});
 
-	const templateArray = activeCampaign?.templateValues.map((el) => {
+	const templateArray = queryData?.templateValues.map((el) => {
 		return <Tag key={el} label={el} />;
 	});
 
@@ -51,7 +51,7 @@ const QueryView = ({
 					<StepNav>
 						<StyledButton disabled>ᐊ Back</StyledButton>
 						<StyledButton
-							disabled={activeCampaign.templateValues?.length < 1}
+							disabled={queryData.templateValues?.length < 1}
 							onClick={() => setStep(1)}
 						>
 							Template ᐅ
@@ -103,7 +103,7 @@ const QueryView = ({
 
 					{!!templateArray.length && (
 						<>
-							<SubTitle>Fields:</SubTitle>
+							<SubTitle>Available fields:</SubTitle>
 							<TagWrapper>{templateArray}</TagWrapper>
 						</>
 					)}

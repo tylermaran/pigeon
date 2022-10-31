@@ -14,8 +14,9 @@ export const NavItem = styled(Link)`
 `;
 
 export const Title = styled.div`
-	color: ${({ selected }) => (selected ? '#ffb900' : '#ffffff')};
+	color: ${({ selected }) => (selected ? '#ffb900' : '#ffffffa8')};
 	font-size: 1.1rem;
+	font-weight: 500;
 	margin-bottom: 0.25rem;
 `;
 

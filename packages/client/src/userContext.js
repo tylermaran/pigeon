@@ -25,9 +25,15 @@ const UserContextProvider = ({ children }) => {
 					{
 						provider: null,
 						query: '',
+						rowCount: 0,
 						source: null,
 						template: { subject: '', body: '' },
 						templateValues: [],
+						queryData: {
+							result: [],
+							rowCount: 0,
+							templateValues: [],
+						},
 					},
 				],
 			});

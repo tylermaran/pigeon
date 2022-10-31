@@ -11,7 +11,7 @@ import { runQuery } from './requests';
 const Campaigns = () => {
 	const active = 0;
 	const [step, setStep] = useState(0);
-	const [queryData, setQueryData] = useState(null);
+	// const [queryData, setQueryData] = useState(null);
 	const [queryError, setQueryError] = useState('');
 
 	const { user, setUser } = useUserContext();
@@ -29,8 +29,12 @@ const Campaigns = () => {
 
 	const handleQuery = async () => {
 		setQueryError('');
-		setQueryData('');
-		updateCampaign('templateValues', []);
+		// setQueryData('');
+		updateCampaign('queryData', {
+			result: [],
+			rowCount: 0,
+			templateValues: [],
+		});
 		if (activeCampaign.query === '') {
 			return setQueryError('No query provided');
 		}
@@ -44,8 +48,10 @@ const Campaigns = () => {
 				setQueryError(message);
 			} else {
 				const { result, rowCount, templateValues } = data;
-				updateCampaign('templateValues', templateValues);
-				setQueryData({ result, rowCount });
+				console.log(data);
+				// updateCampaign('templateValues', templateValues);
+				updateCampaign('queryData', data);
+				// setQueryData({ result, rowCount });
 			}
 		} catch (error) {
 			console.log(error);
@@ -62,7 +68,6 @@ const Campaigns = () => {
 				activeCampaign={activeCampaign}
 				handleQuery={handleQuery}
 				providers={providers}
-				queryData={queryData}
 				queryError={queryError}
 				setStep={setStep}
 				sources={sources}

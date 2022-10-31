@@ -17,7 +17,7 @@ const TemplateView = ({
 	setStep,
 	updateCampaign,
 }) => {
-	const { template } = activeCampaign;
+	const { template, queryData } = activeCampaign;
 
 	const setProvider = (i) => {
 		updateCampaign('provider', providers[i]);
@@ -31,7 +31,7 @@ const TemplateView = ({
 		);
 	});
 
-	const templateArray = activeCampaign?.templateValues.map((el) => {
+	const templateArray = queryData?.templateValues.map((el) => {
 		return <Tag key={el} label={el} />;
 	});
 
@@ -63,14 +63,14 @@ const TemplateView = ({
 							defaultValue={'DEFAULT'}
 						>
 							<option value={'DEFAULT'} disabled hidden>
-								Select Source
+								Select Provider
 							</option>
 							{emailProviders}
 						</StyledSelect>
 					</div>
 					{!!templateArray.length && (
 						<>
-							<SubTitle>Fields:</SubTitle>
+							<SubTitle>Available fields:</SubTitle>
 							<TagWrapper>{templateArray}</TagWrapper>
 						</>
 					)}

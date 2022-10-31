@@ -20,7 +20,7 @@ export const HomeContainer = styled.div`
 	flex-direction: column;
 	font-weight: 400;
 	justify-content: center;
-	height: 160px;
+	min-height: 160px;
 `;
 
 export const Title = styled.div`
