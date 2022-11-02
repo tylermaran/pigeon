@@ -5,11 +5,17 @@ import {
 	StepNav,
 	StyledButton,
 } from '../styledComponents';
+import { sendEmail } from '../requests';
 import { SubTitle } from './styledComponents';
 
 const ConfirmationView = ({ activeCampaign, updateCampaign, setStep }) => {
-	console.log(activeCampaign);
 	const { queryData, source, template, provider } = activeCampaign;
+
+	const handleSend = async () => {
+		console.log(activeCampaign);
+		await sendEmail({ activeCampaign });
+	};
+
 	return (
 		<SectionContainer>
 			<ColumnWrapper>
@@ -21,18 +27,25 @@ const ConfirmationView = ({ activeCampaign, updateCampaign, setStep }) => {
 					</StepNav>
 					<h2>Review Notification</h2>
 					<SubTitle>Query</SubTitle>
-					Querying <b>{queryData.rowCount}</b> row from {source.TYPE}{' '}
-					database <b>{source.NICKNAME}</b>
-					<SubTitle>Provider</SubTitle>
-					Sending through <b>{provider.TYPE}</b> provider{' '}
-					<b>{provider.NICKNAME}</b>
-					<SubTitle>Email</SubTitle>
+					<span>
+						Selected <b>{queryData.rowCount}</b> rows from{' '}
+						{source.TYPE} database <b>{source.NICKNAME}</b>
+					</span>
+					<SubTitle>Email Provider</SubTitle>
+					<span>
+						Sending <b>{queryData.rowCount}</b> emails through{' '}
+						<b>{provider.TYPE}</b> provider{' '}
+						<b>{provider.NICKNAME}</b>
+					</span>
+					<br></br>
+					<br></br>
+					<SubTitle>Email:</SubTitle>
 					<b>Subject:</b> {template.subject}
 					<br></br>
 					<b>Body:</b> <i>{template.body.substring(0, 100)}</i>
 					<SubTitle>Send at</SubTitle>
 					{new Date().toLocaleString()}
-					<StyledButton onClick={() => setStep(1)}>
+					<StyledButton onClick={() => handleSend()}>
 						Send now
 					</StyledButton>
 				</Column>

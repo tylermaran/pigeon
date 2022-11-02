@@ -6,7 +6,7 @@ import Header from '../../components/Header';
 import { PrimaryButton } from '../../components/BaseUI/Buttons';
 import SectionContainer from '../../components/Section';
 
-import { InputContainer } from './styledComponents';
+import { InputContainer, ProviderOptions } from './styledComponents';
 import SourceContainer from '../../components/SourceContainer';
 
 const EmailProviders = () => {
@@ -49,23 +49,26 @@ const EmailProviders = () => {
 			<SectionContainer>
 				<h2>Existing Providers</h2>
 
-				<SourceContainer
-					image={'./postmark.png'}
-					title="Postmark"
-					active={false}
-				/>
-				<SourceContainer
-					image={'./courier.png'}
-					title="Courier"
-					active={false}
-				/>
-				<SourceContainer
-					image={'./mailchimp.png'}
-					title="MailChimp"
-					active={false}
-				/>
 				<ul>{existingProviders}</ul>
 				<h2>Add Provider</h2>
+				<ProviderOptions>
+					<SourceContainer
+						image={'./postmark.png'}
+						title="Postmark"
+						active={false}
+					/>
+					<SourceContainer
+						image={'./courier.png'}
+						title="Courier"
+						active={false}
+					/>
+					<SourceContainer
+						image={'./mailchimp.png'}
+						title="MailChimp"
+						active={false}
+					/>
+				</ProviderOptions>
+
 				<InputContainer>
 					NICKNAME
 					<input

@@ -5,7 +5,7 @@ import BaseContainer from '../../components/Containers';
 import Header from '../../components/Header';
 import { PrimaryButton } from '../../components/BaseUI/Buttons';
 import SectionContainer from '../../components/Section';
-import { InputContainer } from './styledComponents';
+import { InputContainer, SourceWrapper } from './styledComponents';
 import SourceContainer from '../../components/SourceContainer';
 
 const DataSources = () => {
@@ -65,19 +65,21 @@ const DataSources = () => {
 			<SectionContainer>
 				<h2>Existing Connections</h2>
 
-				<SourceContainer
-					image={'./postgres.png'}
-					title="PostgreSQL"
-					active={false}
-				/>
-				<SourceContainer
-					image={'./mysql.png'}
-					title="MySQL"
-					active={false}
-				/>
 				<ul>{existingSources}</ul>
 
 				<h3>New Postgres Connection:</h3>
+				<SourceWrapper>
+					<SourceContainer
+						image={'./postgres.png'}
+						title="PostgreSQL"
+						active={false}
+					/>
+					<SourceContainer
+						image={'./mysql.png'}
+						title="MySQL"
+						active={false}
+					/>
+				</SourceWrapper>
 				<InputContainer>
 					NICKNAME
 					<input

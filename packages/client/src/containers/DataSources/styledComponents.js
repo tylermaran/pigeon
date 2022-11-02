@@ -5,3 +5,7 @@ export const InputContainer = styled.div`
 	flex-direction: column;
 	width: 50%;
 `;
+
+export const SourceWrapper = styled.div`
+	display: flex;
+`;

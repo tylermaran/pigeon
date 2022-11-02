@@ -7,6 +7,8 @@ app.use(express.json());
 app.use(cors());
 
 const { pgConnect } = require('./postgresFunctions');
+const { sendEmail } = require('./postmarkFunctions');
+const { formatTemplate } = require('./formatTemplate');
 
 // Ping
 app.get('/', (req, res, next) => {
@@ -14,8 +16,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.post('/query', async (req, res, next) => {
-	const { campaign } = req.body;
-	const { source, query } = campaign;
+	const { source, query } = req.body;
 
 	try {
 		const pool = pgConnect({
@@ -48,6 +49,20 @@ app.post('/test-connection', async (req, res, next) => {
 });
 
 app.post('/send-email', async (req, res, next) => {
+	const { provider, template, queryData } = req.body;
+
+	const test = queryData.result[0];
+	const body = formatTemplate({ source: template.body, data: test });
+	const subject = formatTemplate({ source: template.subject, data: test });
+
+	await sendEmail({
+		email: 'tyler.maran@gmail.com',
+		// htmlBody: body,
+		secretKey: provider.API_KEY,
+		subject: subject,
+		textBody: body,
+	});
+
 	return res.status(200);
 });
 
