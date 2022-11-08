@@ -8,6 +8,7 @@ export const SourceWrapper = styled.div`
 	align-items: center;
 	border-radius: 0.25rem;
 	margin: 1rem;
+	user-select: none;
 
 	:hover {
 		cursor: pointer;

@@ -26,20 +26,16 @@ const ConfirmationView = ({ activeCampaign, updateCampaign, setStep }) => {
 						</StyledButton>
 					</StepNav>
 					<h2>Review Notification</h2>
-					<SubTitle>Query</SubTitle>
+					<br></br>
 					<span>
 						Selected <b>{queryData.rowCount}</b> rows from{' '}
-						{source.TYPE} database <b>{source.NICKNAME}</b>
-					</span>
-					<SubTitle>Email Provider</SubTitle>
-					<span>
-						Sending <b>{queryData.rowCount}</b> emails through{' '}
-						<b>{provider.TYPE}</b> provider{' '}
-						<b>{provider.NICKNAME}</b>
+						{source.TYPE} database <b>{source.NICKNAME}</b>. Sending{' '}
+						<b>{queryData.rowCount}</b> emails through{' '}
+						{provider.TYPE} provider <b>{provider.NICKNAME}</b>.
 					</span>
 					<br></br>
 					<br></br>
-					<SubTitle>Email:</SubTitle>
+					<SubTitle>Preview:</SubTitle>
 					<b>Subject:</b> {template.subject}
 					<br></br>
 					<b>Body:</b> <i>{template.body.substring(0, 100)}</i>

@@ -8,16 +8,41 @@ import SectionContainer from '../../components/Section';
 
 import { InputContainer, ProviderOptions } from './styledComponents';
 import SourceContainer from '../../components/SourceContainer';
+import Modal from '../../components/BaseUI/Modal';
 
 const EmailProviders = () => {
 	const initialState = {
 		NICKNAME: '',
 		API_KEY: '',
 		URL: '',
-		TYPE: 'POSTMARK',
+		TYPE: '',
 	};
 	const { user, setUser } = useUserContext();
+	const [modalContent, setModalContent] = useState(null);
+	const [open, setOpen] = useState(false);
 	const [form, setForm] = useState(initialState);
+
+	const handleModal = (source) => {
+		if (open) {
+			setOpen(false);
+		} else {
+			if (source === 'postmark') {
+				setForm((prevState) => ({
+					...prevState,
+					TYPE: 'POSTMARK',
+				}));
+				setModalContent(postmarkInput);
+			}
+			if (source === 'courier') {
+				setForm((prevState) => ({
+					...prevState,
+					TYPE: 'COURIER',
+				}));
+				setModalContent(courierInput);
+			}
+			setOpen(true);
+		}
+	};
 
 	const handleInput = (e) => {
 		const { name, value } = e.target;
@@ -28,6 +53,7 @@ const EmailProviders = () => {
 	};
 
 	const handleSubmit = () => {
+		setOpen(false);
 		setUser((prevState) => ({
 			...prevState,
 			providers: [...user.providers, form],
@@ -43,11 +69,57 @@ const EmailProviders = () => {
 		);
 	});
 
+	const postmarkInput = (
+		<InputContainer>
+			<h2>Postmark</h2>
+			<br></br>
+			NICKNAME
+			<input
+				name="NICKNAME"
+				value={form.NICKNAME}
+				onChange={handleInput}
+			/>
+			API_KEY
+			<input name="API_KEY" value={form.API_KEY} onChange={handleInput} />
+			URL
+			<input name="URL" value={form.URL} onChange={handleInput} />
+			<br></br>
+			<br></br>
+			<br></br>
+			<PrimaryButton onClick={handleSubmit}>Save</PrimaryButton>
+		</InputContainer>
+	);
+
+	const courierInput = (
+		<InputContainer>
+			<h2>Courier</h2>
+			<br></br>
+			NICKNAME
+			<input
+				name="NICKNAME"
+				value={form.NICKNAME}
+				onChange={handleInput}
+			/>
+			API_KEY
+			<input name="API_KEY" value={form.API_KEY} onChange={handleInput} />
+			URL
+			<input name="URL" value={form.URL} onChange={handleInput} />
+			<br></br>
+			<br></br>
+			<br></br>
+			<PrimaryButton onClick={handleSubmit}>Save</PrimaryButton>
+		</InputContainer>
+	);
+
 	return (
 		<BaseContainer>
 			<Header title="Email Providers" />
 			<SectionContainer>
 				<h2>Existing Providers</h2>
+
+				<Modal open={open} setOpen={setOpen}>
+					{modalContent}
+				</Modal>
 
 				<ul>{existingProviders}</ul>
 				<h2>Add Provider</h2>
@@ -56,36 +128,15 @@ const EmailProviders = () => {
 						image={'./postmark.png'}
 						title="Postmark"
 						active={false}
+						handleModal={() => handleModal('postmark')}
 					/>
 					<SourceContainer
 						image={'./courier.png'}
 						title="Courier"
 						active={false}
-					/>
-					<SourceContainer
-						image={'./mailchimp.png'}
-						title="MailChimp"
-						active={false}
+						handleModal={() => handleModal('courier')}
 					/>
 				</ProviderOptions>
-
-				<InputContainer>
-					NICKNAME
-					<input
-						name="NICKNAME"
-						value={form.NICKNAME}
-						onChange={handleInput}
-					/>
-					API_KEY
-					<input
-						name="API_KEY"
-						value={form.API_KEY}
-						onChange={handleInput}
-					/>
-					URL
-					<input name="URL" value={form.URL} onChange={handleInput} />
-					<PrimaryButton onClick={handleSubmit}>Save</PrimaryButton>
-				</InputContainer>
 			</SectionContainer>
 		</BaseContainer>
 	);
