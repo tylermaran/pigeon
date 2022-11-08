@@ -1,6 +1,8 @@
 # Pigeon
 
-### SQL => Email
+## SQL => Email
+
+<image src="./screenshot.png">
 
 I've frequently run into the issue of wanting to email a subset of users out of a database. Usually I just run a query, and write a script to look though and send the notification. But I figured I could build a better solution!
 
@@ -30,3 +32,4 @@ npm start
 -   [ ] Schedule send
 -   [ ] Email history
 -   [ ] Accept incoming webhooks (i.e. delivery receipts)
+-   [ ] Db hooks, send a notification when a data source changes
