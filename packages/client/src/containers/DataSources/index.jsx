@@ -3,23 +3,49 @@ import { useUserContext } from '../../userContext';
 
 import BaseContainer from '../../components/Containers';
 import Header from '../../components/Header';
-import { PrimaryButton } from '../../components/BaseUI/Buttons';
 import SectionContainer from '../../components/Section';
-import { InputContainer, SourceWrapper } from './styledComponents';
+import { SourceWrapper } from './styledComponents';
 import SourceContainer from '../../components/SourceContainer';
+import Modal from '../../components/BaseUI/Modal';
+
+import { postgresInput } from './postgresInput';
+// import { mySqlInput } from './mySqlInput';
 
 const DataSources = () => {
 	const initialState = {
-		NICKNAME: '',
 		DB_HOST: '',
 		DB_NAME: '',
 		DB_PASSWORD: '',
 		DB_PORT: '',
 		DB_USER: '',
-		TYPE: 'POSTGRES',
+		NICKNAME: '',
+		TYPE: '',
 	};
+
 	const { user, setUser } = useUserContext();
+	const [open, setOpen] = useState(false);
 	const [form, setForm] = useState(initialState);
+
+	const handleModal = (source) => {
+		if (open) {
+			setOpen(false);
+		} else {
+			if (source === 'postgres') {
+				setForm((prevState) => ({
+					...prevState,
+					TYPE: 'POSTGRES',
+				}));
+				setOpen(true);
+			}
+			if (source === 'mysql') {
+				setForm((prevState) => ({
+					...prevState,
+					TYPE: 'MYSQL',
+				}));
+				setOpen(true);
+			}
+		}
+	};
 
 	const handleInput = (e) => {
 		const { name, value } = e.target;
@@ -30,6 +56,7 @@ const DataSources = () => {
 	};
 
 	const handleSubmit = () => {
+		setOpen(false);
 		setUser((prevState) => ({
 			...prevState,
 			sources: [...user.sources, form],
@@ -37,35 +64,44 @@ const DataSources = () => {
 		setForm(initialState);
 	};
 
-	const handleDelete = (nickname) => {
-		const index = user.sources.findIndex((el) => el.NICKNAME === nickname);
-		setUser((prevState) => ({
-			...prevState,
-			sources: user.sources.splice(index, 1),
-		}));
-	};
+	// const handleEmail = () => {
+	// 	setOpen(false);
+	// };
+
+	// const handleDelete = (nickname) => {
+	// 	const index = user.sources.findIndex((el) => el.NICKNAME === nickname);
+	// 	setUser((prevState) => ({
+	// 		...prevState,
+	// 		sources: user.sources.splice(index, 1),
+	// 	}));
+	// };
 
 	const existingSources = user.sources.map(({ TYPE, NICKNAME }) => {
 		return (
-			<li key={NICKNAME}>
-				{TYPE} - {NICKNAME}
-				<button
-					value={NICKNAME}
-					onClick={(el) => handleDelete(el.target.value)}
-				>
-					Delete
-				</button>
-			</li>
+			<SourceContainer
+				key={`${TYPE}-${NICKNAME}`}
+				image={'./postgres.png'}
+				title={`${TYPE}-${NICKNAME}`}
+				active={false}
+				handleClick={() => handleModal('postgres')}
+			/>
 		);
 	});
 
 	return (
 		<BaseContainer>
+			<Modal
+				open={open}
+				setOpen={setOpen}
+				propsToPassDown={{ form, handleInput, handleSubmit }}
+				Component={postgresInput}
+			/>
+
 			<Header title="Data Sources" />
 			<SectionContainer>
 				<h2>Existing Connections</h2>
 
-				<ul>{existingSources}</ul>
+				<div>{existingSources}</div>
 
 				<h3>New Postgres Connection:</h3>
 				<SourceWrapper>
@@ -73,52 +109,15 @@ const DataSources = () => {
 						image={'./postgres.png'}
 						title="PostgreSQL"
 						active={false}
+						handleClick={() => handleModal('postgres')}
 					/>
 					<SourceContainer
 						image={'./mysql.png'}
 						title="MySQL"
 						active={false}
+						handleClick={() => handleModal('mysql')}
 					/>
 				</SourceWrapper>
-				<InputContainer>
-					NICKNAME
-					<input
-						name="NICKNAME"
-						value={form.NICKNAME}
-						onChange={handleInput}
-					/>
-					DB_HOST
-					<input
-						name="DB_HOST"
-						value={form.DB_HOST}
-						onChange={handleInput}
-					/>
-					DB_NAME
-					<input
-						name="DB_NAME"
-						value={form.DB_NAME}
-						onChange={handleInput}
-					/>
-					DB_PASSWORD
-					<input
-						name="DB_PASSWORD"
-						value={form.DB_PASSWORD}
-						onChange={handleInput}
-					/>
-					DB_PORT
-					<input
-						name="DB_PORT"
-						value={form.DB_PORT}
-						onChange={handleInput}
-					/>
-					DB_USER
-					<input
-						name="DB_USER"
-						value={form.DB_USER}
-						onChange={handleInput}
-					/>
-					<PrimaryButton onClick={handleSubmit}>Save</PrimaryButton>
-				</InputContainer>
 			</SectionContainer>
 		</BaseContainer>
 	);

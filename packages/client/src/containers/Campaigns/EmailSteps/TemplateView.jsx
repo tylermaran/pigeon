@@ -1,5 +1,6 @@
 import TemplateContainer from '../../../components/TemplateContainer';
 import SectionContainer from '../../../components/Section';
+import SourceContainer from '../../../components/SourceContainer';
 import Tag from '../../../components/BaseUI/Tags';
 
 import {
@@ -7,7 +8,8 @@ import {
 	ColumnWrapper,
 	StepNav,
 	StyledButton,
-	StyledSelect,
+	SourceSelect,
+	StyledLink,
 } from '../styledComponents';
 import { SubTitle, TagWrapper } from './styledComponents';
 
@@ -23,11 +25,18 @@ const TemplateView = ({
 		updateCampaign('provider', providers[i]);
 	};
 
-	const emailProviders = providers.map((el, i) => {
+	const emailProviders = providers.map(({ TYPE, NICKNAME }, i) => {
 		return (
-			<option key={el.NICKNAME} value={i}>
-				{el.TYPE}-{el.NICKNAME}
-			</option>
+			<SourceContainer
+				key={`${TYPE}-${NICKNAME}`}
+				image={'./postgres.png'}
+				title={`${TYPE}-${NICKNAME}`}
+				active={
+					activeCampaign.provider &&
+					NICKNAME === activeCampaign.provider.NICKNAME
+				}
+				handleClick={() => setProvider(i)}
+			/>
 		);
 	});
 
@@ -57,16 +66,15 @@ const TemplateView = ({
 					<h2>Create email</h2>
 					<div>
 						<SubTitle>Email Provider</SubTitle>
-						<StyledSelect
-							name="source"
-							onChange={(e) => setProvider(e.target.value)}
-							defaultValue={'DEFAULT'}
-						>
-							<option value={'DEFAULT'} disabled hidden>
-								Select Provider
-							</option>
-							{emailProviders}
-						</StyledSelect>
+						<SourceSelect>
+							{emailProviders.length ? (
+								emailProviders
+							) : (
+								<StyledLink to="/email-providers">
+									Add an email provider
+								</StyledLink>
+							)}
+						</SourceSelect>
 					</div>
 					{!!templateArray.length && (
 						<>

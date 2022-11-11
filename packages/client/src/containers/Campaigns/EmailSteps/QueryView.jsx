@@ -3,6 +3,7 @@ import QueryContainer from '../../../components/QueryContainer';
 import QueryTable from '../../../components/QueryTable';
 import SectionContainer from '../../../components/Section';
 import Tag from '../../../components/BaseUI/Tags';
+import SourceContainer from '../../../components/SourceContainer';
 
 import {
 	Column,
@@ -10,7 +11,8 @@ import {
 	ErrorBanner,
 	StepNav,
 	StyledButton,
-	StyledSelect,
+	SourceSelect,
+	StyledLink,
 } from '../styledComponents';
 import {
 	DataWrapper,
@@ -32,11 +34,18 @@ const QueryView = ({
 		updateCampaign('source', sources[i]);
 	};
 
-	const emailSources = sources.map((el, i) => {
+	const existingSources = sources.map(({ TYPE, NICKNAME }, i) => {
 		return (
-			<option key={el.NICKNAME} value={i}>
-				{el.TYPE}-{el.NICKNAME}
-			</option>
+			<SourceContainer
+				key={`${TYPE}-${NICKNAME}`}
+				image={'./postgres.png'}
+				title={`${TYPE}-${NICKNAME}`}
+				active={
+					activeCampaign.source &&
+					NICKNAME === activeCampaign.source.NICKNAME
+				}
+				handleClick={() => setSource(i)}
+			/>
 		);
 	});
 
@@ -60,16 +69,16 @@ const QueryView = ({
 					<h2>Query Data</h2>
 					<div>
 						<SubTitle>Data Source</SubTitle>
-						<StyledSelect
-							name="source"
-							onChange={(e) => setSource(e.target.value)}
-							defaultValue={'DEFAULT'}
-						>
-							<option value={'DEFAULT'} disabled hidden>
-								Select Source
-							</option>
-							{emailSources}
-						</StyledSelect>
+
+						<SourceSelect>
+							{existingSources.length ? (
+								existingSources
+							) : (
+								<StyledLink to="/data-sources">
+									Add a data source
+								</StyledLink>
+							)}
+						</SourceSelect>
 					</div>
 					<QueryWrapper>
 						<SubTitle>Query</SubTitle>

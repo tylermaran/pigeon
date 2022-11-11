@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useUserContext } from '../../userContext';
 
+import { postmarkInput } from './postmarkInput';
+import { courierInput } from './courierInput';
 import BaseContainer from '../../components/Containers';
 import Header from '../../components/Header';
-import { PrimaryButton } from '../../components/BaseUI/Buttons';
-import SectionContainer from '../../components/Section';
-
-import { InputContainer, ProviderOptions } from './styledComponents';
-import SourceContainer from '../../components/SourceContainer';
 import Modal from '../../components/BaseUI/Modal';
+import SectionContainer from '../../components/Section';
+import SourceContainer from '../../components/SourceContainer';
+
+import { ProviderOptions } from './styledComponents';
 
 const EmailProviders = () => {
 	const initialState = {
@@ -18,29 +19,29 @@ const EmailProviders = () => {
 		TYPE: '',
 	};
 	const { user, setUser } = useUserContext();
-	const [modalContent, setModalContent] = useState(null);
-	const [open, setOpen] = useState(false);
+	const [postmarkOpen, setPostmarkOpen] = useState(false);
+	const [courierOpen, setCourierOpen] = useState(false);
 	const [form, setForm] = useState(initialState);
 
 	const handleModal = (source) => {
-		if (open) {
-			setOpen(false);
+		if (postmarkOpen || courierOpen) {
+			setPostmarkOpen(false);
+			setCourierOpen(false);
 		} else {
-			if (source === 'postmark') {
+			if (source === 'POSTMARK') {
 				setForm((prevState) => ({
 					...prevState,
 					TYPE: 'POSTMARK',
 				}));
-				setModalContent(postmarkInput);
+				setPostmarkOpen(true);
 			}
-			if (source === 'courier') {
+			if (source === 'COURIER') {
 				setForm((prevState) => ({
 					...prevState,
 					TYPE: 'COURIER',
 				}));
-				setModalContent(courierInput);
+				setCourierOpen(true);
 			}
-			setOpen(true);
 		}
 	};
 
@@ -53,7 +54,8 @@ const EmailProviders = () => {
 	};
 
 	const handleSubmit = () => {
-		setOpen(false);
+		setCourierOpen(false);
+		setPostmarkOpen(false);
 		setUser((prevState) => ({
 			...prevState,
 			providers: [...user.providers, form],
@@ -63,78 +65,48 @@ const EmailProviders = () => {
 
 	const existingProviders = user.providers.map(({ NICKNAME, TYPE }) => {
 		return (
-			<li key={NICKNAME}>
-				{TYPE} - {NICKNAME}
-			</li>
+			<SourceContainer
+				key={`${TYPE}-${NICKNAME}`}
+				image={TYPE === 'COURIER' ? './courier.png' : './postmark.png'}
+				title={`${TYPE}-${NICKNAME}`}
+				active={false}
+				handleClick={() => handleModal(TYPE)}
+			/>
 		);
 	});
 
-	const postmarkInput = (
-		<InputContainer>
-			<h2>Postmark</h2>
-			<br></br>
-			NICKNAME
-			<input
-				name="NICKNAME"
-				value={form.NICKNAME}
-				onChange={handleInput}
-			/>
-			API_KEY
-			<input name="API_KEY" value={form.API_KEY} onChange={handleInput} />
-			URL
-			<input name="URL" value={form.URL} onChange={handleInput} />
-			<br></br>
-			<br></br>
-			<br></br>
-			<PrimaryButton onClick={handleSubmit}>Save</PrimaryButton>
-		</InputContainer>
-	);
-
-	const courierInput = (
-		<InputContainer>
-			<h2>Courier</h2>
-			<br></br>
-			NICKNAME
-			<input
-				name="NICKNAME"
-				value={form.NICKNAME}
-				onChange={handleInput}
-			/>
-			API_KEY
-			<input name="API_KEY" value={form.API_KEY} onChange={handleInput} />
-			URL
-			<input name="URL" value={form.URL} onChange={handleInput} />
-			<br></br>
-			<br></br>
-			<br></br>
-			<PrimaryButton onClick={handleSubmit}>Save</PrimaryButton>
-		</InputContainer>
-	);
-
 	return (
 		<BaseContainer>
+			<Modal
+				open={postmarkOpen}
+				setOpen={setPostmarkOpen}
+				propsToPassDown={{ form, handleInput, handleSubmit }}
+				Component={postmarkInput}
+			/>
+			<Modal
+				open={courierOpen}
+				setOpen={setCourierOpen}
+				propsToPassDown={{ form, handleInput, handleSubmit }}
+				Component={courierInput}
+			/>
 			<Header title="Email Providers" />
 			<SectionContainer>
 				<h2>Existing Providers</h2>
 
-				<Modal open={open} setOpen={setOpen}>
-					{modalContent}
-				</Modal>
-
-				<ul>{existingProviders}</ul>
+				<div>{existingProviders}</div>
 				<h2>Add Provider</h2>
 				<ProviderOptions>
 					<SourceContainer
 						image={'./postmark.png'}
 						title="Postmark"
 						active={false}
-						handleModal={() => handleModal('postmark')}
+						handleClick={() => handleModal('POSTMARK')}
 					/>
 					<SourceContainer
 						image={'./courier.png'}
 						title="Courier"
 						active={false}
-						handleModal={() => handleModal('courier')}
+						handleClick={() => handleModal('COURIER')}
 					/>
 				</ProviderOptions>
 			</SectionContainer>

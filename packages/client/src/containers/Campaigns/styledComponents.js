@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { SecondaryButton } from '../../components/BaseUI/Buttons';
 
@@ -34,4 +35,13 @@ export const StepNav = styled.div`
 	display: flex;
 	justify-content: space-between;
 	padding: 0 0 2rem 0;
+`;
+
+export const StyledLink = styled(Link)`
+	color: blue;
+`;
+
+export const SourceSelect = styled.div`
+	display: flex;
+	flex-direction: row;
 `;

@@ -2,7 +2,7 @@ import Modal from '@mui/material/Modal';
 
 import { StyledModal, StyledInterior } from './styledComponents';
 
-const BaseModal = ({ open, setOpen, children }) => {
+const BaseModal = ({ open, setOpen, propsToPassDown, Component }) => {
 	return (
 		<Modal
 			open={open}
@@ -11,7 +11,9 @@ const BaseModal = ({ open, setOpen, children }) => {
 			aria-describedby="modal-modal-description"
 		>
 			<StyledModal>
-				<StyledInterior>{children}</StyledInterior>
+				<StyledInterior>
+					{propsToPassDown && <Component {...propsToPassDown} />}
+				</StyledInterior>
 			</StyledModal>
 		</Modal>
 	);
