@@ -30,13 +30,21 @@ app.post('/query', async (req, res, next) => {
 			data: { result: rows.slice(0, 100), templateValues, rowCount },
 		});
 	} catch (error) {
-		console.log(error);
 		return res.status(400).json({ error: error.message });
 	}
 });
 
 app.post('/test-connection', async (req, res, next) => {
-	return res.status(200);
+	try {
+		await queryPostgres({
+			source,
+			query: 'SELECT 1',
+		});
+
+		return res.status(200);
+	} catch (error) {
+		return res.status(400).json({ error: error.message });
+	}
 });
 
 app.post('/preview-email', async (req, res, next) => {
@@ -48,7 +56,6 @@ app.post('/preview-email', async (req, res, next) => {
 });
 
 app.post('/send-email', async (req, res, next) => {
-	console.log(req.body);
 	const { provider, template, query, source } = req.body;
 
 	// Run query again to get full data
