@@ -1,20 +1,32 @@
+import { useEffect, useState } from 'react';
 import SectionContainer from '../../../components/Section';
+import EmailPreview from '../../../components/EmailPreview';
 import {
 	Column,
 	ColumnWrapper,
 	StepNav,
 	StyledButton,
 } from '../styledComponents';
-import { sendEmail } from '../requests';
+import { sendEmail, previewEmail } from '../requests';
 import { SubTitle } from './styledComponents';
 
 const ConfirmationView = ({ activeCampaign, updateCampaign, setStep }) => {
-	const { queryData, source, template, provider } = activeCampaign;
+	const [preview, setPreview] = useState({ subject: '', body: '' });
+	const { queryData, source, provider } = activeCampaign;
 
 	const handleSend = async () => {
-		console.log(activeCampaign);
 		await sendEmail({ activeCampaign });
 	};
+
+	const fetchPreview = async () => {
+		const { body, subject } = await previewEmail({ activeCampaign });
+		setPreview({ body, subject });
+	};
+
+	useEffect(() => {
+		fetchPreview();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<SectionContainer>
@@ -34,13 +46,13 @@ const ConfirmationView = ({ activeCampaign, updateCampaign, setStep }) => {
 						{provider.TYPE} provider <b>{provider.NICKNAME}</b>.
 					</span>
 					<br></br>
-					<br></br>
 					<SubTitle>Preview:</SubTitle>
-					<b>Subject:</b> {template.subject}
-					<br></br>
-					<b>Body:</b> <i>{template.body.substring(0, 100)}</i>
-					<SubTitle>Send at</SubTitle>
-					{new Date().toLocaleString()}
+
+					<EmailPreview
+						subject={preview.subject}
+						body={preview.body}
+					/>
+
 					<StyledButton onClick={() => handleSend()}>
 						Send now
 					</StyledButton>

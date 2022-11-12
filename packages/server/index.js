@@ -49,6 +49,7 @@ app.post('/test-connection', async (req, res, next) => {
 
 app.post('/preview-email', async (req, res, next) => {
 	const { template, queryData } = req.body;
+	console.log(req.body);
 	const test = queryData.result[0];
 	const body = formatTemplate({ source: template.body, data: test });
 	const subject = formatTemplate({ source: template.subject, data: test });
