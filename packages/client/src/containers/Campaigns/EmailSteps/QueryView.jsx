@@ -110,19 +110,20 @@ const QueryView = ({
 						</PrimaryButton>
 					</QueryWrapper>
 
-					{!!templateArray.length && (
+					{templateArray.length > 0 && (
 						<>
 							<SubTitle>Available fields:</SubTitle>
 							<TagWrapper>{templateArray}</TagWrapper>
 						</>
 					)}
-
-					{queryData && (
+					{queryError && (
+						<ErrorBanner>Error: {queryError}</ErrorBanner>
+					)}
+					{queryData.rowCount > 0 && (
 						<DataWrapper>
 							<QueryTable data={queryData} />
 						</DataWrapper>
 					)}
-					<ErrorBanner>{queryError}</ErrorBanner>
 				</Column>
 			</ColumnWrapper>
 		</SectionContainer>

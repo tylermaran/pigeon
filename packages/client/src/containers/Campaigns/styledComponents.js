@@ -18,7 +18,13 @@ export const ColumnWrapper = styled.div`
 `;
 
 export const ErrorBanner = styled.div`
+	background: #ffe7e7;
+	border-radius: 0.5rem;
+	border: 1px solid red;
 	color: red;
+	font-weight: 400;
+	margin: 0.25rem;
+	padding: 0.5rem 1rem;
 `;
 
 export const StyledSelect = styled.select`

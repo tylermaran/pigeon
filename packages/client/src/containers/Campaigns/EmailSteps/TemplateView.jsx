@@ -60,7 +60,7 @@ const TemplateView = ({
 							ᐊ Edit Query
 						</StyledButton>
 						<StyledButton onClick={() => setStep(2)}>
-							Review ᐅ
+							Preview & Send ᐅ
 						</StyledButton>
 					</StepNav>
 					<h2>Create email</h2>
@@ -76,18 +76,19 @@ const TemplateView = ({
 							)}
 						</SourceSelect>
 					</div>
-					{!!templateArray.length && (
-						<>
-							<SubTitle>Available fields:</SubTitle>
-							<TagWrapper>{templateArray}</TagWrapper>
-						</>
-					)}
+
 					<SubTitle>Template</SubTitle>
 
 					<TemplateContainer
 						template={template}
 						updateTemplate={updateTemplate}
 					/>
+					{!!templateArray.length && (
+						<>
+							<SubTitle>Available fields:</SubTitle>
+							<TagWrapper>{templateArray}</TagWrapper>
+						</>
+					)}
 				</Column>
 			</ColumnWrapper>
 		</SectionContainer>

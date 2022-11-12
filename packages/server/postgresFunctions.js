@@ -28,4 +28,22 @@ const pgConnect = ({ DB_NAME, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER }) => {
 	return pool;
 };
 
-module.exports = { pgConnect };
+const queryPostgres = async ({ source, query }) => {
+	const pool = pgConnect({
+		DB_NAME: source.DB_NAME,
+		DB_HOST: source.DB_HOST,
+		DB_PASSWORD: source.DB_PASSWORD,
+		DB_PORT: source.DB_PORT,
+		DB_USER: source.DB_USER,
+	});
+
+	const client = await pool.connect();
+	const readOnly = 'SET SESSION CHARACTERISTICS AS TRANSACTION READ ONLY';
+	await client.query(readOnly);
+	const data = await client.query(query);
+	const { rows, rowCount, fields } = data;
+
+	return { rows, rowCount, fields };
+};
+
+module.exports = { pgConnect, queryPostgres };

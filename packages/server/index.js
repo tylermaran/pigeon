@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const { pgConnect } = require('./postgresFunctions');
+const { queryPostgres } = require('./postgresFunctions');
 const { sendEmail } = require('./postmarkFunctions');
 const { formatTemplate } = require('./formatTemplate');
 
@@ -19,19 +19,10 @@ app.post('/query', async (req, res, next) => {
 	const { source, query } = req.body;
 
 	try {
-		const pool = pgConnect({
-			DB_NAME: source.DB_NAME,
-			DB_HOST: source.DB_HOST,
-			DB_PASSWORD: source.DB_PASSWORD,
-			DB_PORT: source.DB_PORT,
-			DB_USER: source.DB_USER,
+		const { rows, rowCount, fields } = await queryPostgres({
+			source,
+			query,
 		});
-
-		const client = await pool.connect();
-		const readOnly = 'SET SESSION CHARACTERISTICS AS TRANSACTION READ ONLY';
-		await client.query(readOnly);
-		const data = await client.query(query);
-		const { rows, rowCount, fields } = data;
 
 		const templateValues = fields.map((el) => el.name);
 
@@ -48,16 +39,31 @@ app.post('/test-connection', async (req, res, next) => {
 	return res.status(200);
 });
 
-app.post('/send-email', async (req, res, next) => {
-	const { provider, template, queryData } = req.body;
-
+app.post('/preview-email', async (req, res, next) => {
+	const { template, queryData } = req.body;
 	const test = queryData.result[0];
+	const body = formatTemplate({ source: template.body, data: test });
+	const subject = formatTemplate({ source: template.subject, data: test });
+	return res.status(200).json({ body, subject });
+});
+
+app.post('/send-email', async (req, res, next) => {
+	console.log(req.body);
+	const { provider, template, query, source } = req.body;
+
+	// Run query again to get full data
+	const { rows, rowCount, fields } = await queryPostgres({
+		source,
+		query,
+	});
+
+	const test = rows[0];
 	const body = formatTemplate({ source: template.body, data: test });
 	const subject = formatTemplate({ source: template.subject, data: test });
 
 	await sendEmail({
 		email: 'tyler.maran@gmail.com',
-		// htmlBody: body,
+		htmlBody: body,
 		secretKey: provider.API_KEY,
 		subject: subject,
 		textBody: body,
