@@ -11,7 +11,6 @@ import { runQuery } from './requests';
 const Campaigns = () => {
 	const active = 0;
 	const [step, setStep] = useState(0);
-	// const [queryData, setQueryData] = useState(null);
 	const [queryError, setQueryError] = useState('');
 
 	const { user, setUser } = useUserContext();
@@ -29,7 +28,6 @@ const Campaigns = () => {
 
 	const handleQuery = async () => {
 		setQueryError('');
-		// setQueryData('');
 		updateCampaign('queryData', {
 			result: [],
 			rowCount: 0,
@@ -47,11 +45,7 @@ const Campaigns = () => {
 			if (message) {
 				setQueryError(message);
 			} else {
-				const { result, rowCount, templateValues } = data;
-				console.log(data);
-				// updateCampaign('templateValues', templateValues);
 				updateCampaign('queryData', data);
-				// setQueryData({ result, rowCount });
 			}
 		} catch (error) {
 			console.log(error);

@@ -9,7 +9,6 @@ import SourceContainer from '../../components/SourceContainer';
 import Modal from '../../components/BaseUI/Modal';
 
 import { postgresInput } from './postgresInput';
-// import { mySqlInput } from './mySqlInput';
 
 const DataSources = () => {
 	const initialState = {
@@ -64,18 +63,6 @@ const DataSources = () => {
 		setForm(initialState);
 	};
 
-	// const handleEmail = () => {
-	// 	setOpen(false);
-	// };
-
-	// const handleDelete = (nickname) => {
-	// 	const index = user.sources.findIndex((el) => el.NICKNAME === nickname);
-	// 	setUser((prevState) => ({
-	// 		...prevState,
-	// 		sources: user.sources.splice(index, 1),
-	// 	}));
-	// };
-
 	const existingSources = user.sources.map(({ TYPE, NICKNAME }) => {
 		return (
 			<SourceContainer
@@ -99,11 +86,11 @@ const DataSources = () => {
 
 			<Header title="Data Sources" />
 			<SectionContainer>
-				<h2>Existing Connections</h2>
+				{existingSources.length && <h2>Existing Connections</h2>}
 
 				<div>{existingSources}</div>
 
-				<h3>New Postgres Connection:</h3>
+				<h2>New Database Connection</h2>
 				<SourceWrapper>
 					<SourceContainer
 						image={'./postgres.png'}

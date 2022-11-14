@@ -17,7 +17,7 @@ git clone https://github.com/tylermaran/pigeon.git
 
 lerna bootstrap
 
-npm start
+npm run dev
 ```
 
 ## TODO

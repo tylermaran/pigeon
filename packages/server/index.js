@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const { resolve } = require('path');
 const app = express();
 
 app.use(express.json());
@@ -11,11 +12,11 @@ const { sendEmail } = require('./postmarkFunctions');
 const { formatTemplate } = require('./formatTemplate');
 
 // Ping
-app.get('/', (req, res, next) => {
+app.get('/api/ping', (req, res, next) => {
 	return res.status(200).send('pong');
 });
 
-app.post('/query', async (req, res, next) => {
+app.post('/api/query', async (req, res, next) => {
 	const { source, query } = req.body;
 
 	try {
@@ -34,7 +35,7 @@ app.post('/query', async (req, res, next) => {
 	}
 });
 
-app.post('/test-connection', async (req, res, next) => {
+app.post('/api/test-connection', async (req, res, next) => {
 	try {
 		await queryPostgres({
 			source,
@@ -47,7 +48,7 @@ app.post('/test-connection', async (req, res, next) => {
 	}
 });
 
-app.post('/preview-email', async (req, res, next) => {
+app.post('/api/preview-email', async (req, res, next) => {
 	const { template, queryData } = req.body;
 	console.log(req.body);
 	const test = queryData.result[0];
@@ -56,7 +57,7 @@ app.post('/preview-email', async (req, res, next) => {
 	return res.status(200).json({ body, subject });
 });
 
-app.post('/send-email', async (req, res, next) => {
+app.post('/api/send-email', async (req, res, next) => {
 	const { provider, template, query, source } = req.body;
 
 	// Run query again to get full data
@@ -79,6 +80,10 @@ app.post('/send-email', async (req, res, next) => {
 
 	return res.status(200);
 });
+
+const outputPath = resolve(process.cwd(), '../client/build');
+app.use('/', express.static(outputPath));
+app.get('*', (req, res) => res.sendFile(resolve(outputPath, 'index.html')));
 
 app.use((req, res, next) => {
 	const error = new Error('Not Found');

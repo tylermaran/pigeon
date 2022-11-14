@@ -10,7 +10,7 @@ export const runQuery = async ({ campaign }) => {
 	};
 
 	try {
-		const url = 'http://localhost:4000/query';
+		const url = process.env.REACT_APP_API_URL + '/query';
 		const res = await fetch(url, requestOptions);
 		const { data, error } = await res.json();
 		return { data, message: error };
@@ -31,7 +31,7 @@ export const previewEmail = async ({ activeCampaign }) => {
 	};
 
 	try {
-		const url = 'http://localhost:4000/preview-email';
+		const url = process.env.REACT_APP_API_URL + '/preview-email';
 		const res = await fetch(url, requestOptions);
 		const { body, subject } = await res.json();
 		return { body, subject };
@@ -52,7 +52,7 @@ export const sendEmail = async ({ activeCampaign }) => {
 	};
 
 	try {
-		const url = 'http://localhost:4000/send-email';
+		const url = process.env.REACT_APP_API_URL + '/send-email';
 		const res = await fetch(url, requestOptions);
 		const { data, error } = await res.json();
 		return { data, message: error };

@@ -11,7 +11,9 @@
 	"description": "sql to email",
 	"main": "index.js",
 	"scripts": {
+		"dev": "npx lerna run dev --stream",
 		"start": "npx lerna run start --stream",
+		"build": "npx lerna run build --stream",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "",
