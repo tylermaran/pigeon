@@ -86,7 +86,7 @@ const DataSources = () => {
 
 			<Header title="Data Sources" />
 			<SectionContainer>
-				{existingSources.length && <h2>Existing Connections</h2>}
+				{existingSources.length > 0 && <h2>Existing Connections</h2>}
 
 				<div>{existingSources}</div>
 

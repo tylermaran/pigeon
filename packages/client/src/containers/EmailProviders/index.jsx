@@ -91,7 +91,7 @@ const EmailProviders = () => {
 			/>
 			<Header title="Email Providers" />
 			<SectionContainer>
-				<h2>Existing Providers</h2>
+				{existingProviders.length > 0 && <h2>Existing Providers</h2>}
 
 				<div>{existingProviders}</div>
 				<h2>Add Provider</h2>
