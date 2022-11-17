@@ -8,25 +8,30 @@ import {
 	StyledButton,
 } from '../styledComponents';
 import { sendEmail, previewEmail } from '../requests';
-import { SubTitle } from './styledComponents';
+import { SubTitle, PreviewSwitcher } from './styledComponents';
 
 const ConfirmationView = ({ activeCampaign, updateCampaign, setStep }) => {
 	const [preview, setPreview] = useState({ subject: '', body: '' });
+	const [previewIndex, setPreviewIndex] = useState(0);
 	const { queryData, source, provider } = activeCampaign;
 
+	console.log(previewIndex);
 	const handleSend = async () => {
 		await sendEmail({ activeCampaign });
 	};
 
 	const fetchPreview = async () => {
-		const { body, subject } = await previewEmail({ activeCampaign });
-		setPreview({ body, subject });
+		const { body, subject, toEmail } = await previewEmail({
+			activeCampaign,
+			previewIndex,
+		});
+		setPreview({ body, subject, toEmail });
 	};
 
 	useEffect(() => {
 		fetchPreview();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [previewIndex]);
 
 	return (
 		<SectionContainer>
@@ -47,8 +52,21 @@ const ConfirmationView = ({ activeCampaign, updateCampaign, setStep }) => {
 					</span>
 					<br></br>
 					<SubTitle>Preview:</SubTitle>
-
+					<PreviewSwitcher>
+						<button
+							onClick={() => setPreviewIndex(previewIndex - 1)}
+						>
+							Prev
+						</button>
+						&nbsp;{previewIndex} / {queryData.rowCount}&nbsp;
+						<button
+							onClick={() => setPreviewIndex(previewIndex + 1)}
+						>
+							Next
+						</button>
+					</PreviewSwitcher>
 					<EmailPreview
+						toEmail={preview.toEmail}
 						subject={preview.subject}
 						body={preview.body}
 					/>

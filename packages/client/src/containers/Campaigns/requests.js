@@ -19,12 +19,12 @@ export const runQuery = async ({ campaign }) => {
 	}
 };
 
-export const previewEmail = async ({ activeCampaign }) => {
+export const previewEmail = async ({ activeCampaign, previewIndex }) => {
 	const myHeaders = new Headers();
 	myHeaders.append('Content-Type', 'application/json');
 
 	const requestOptions = {
-		body: JSON.stringify(activeCampaign),
+		body: JSON.stringify({ activeCampaign, previewIndex }),
 		headers: myHeaders,
 		method: 'POST',
 		redirect: 'follow',
@@ -33,8 +33,8 @@ export const previewEmail = async ({ activeCampaign }) => {
 	try {
 		const url = process.env.REACT_APP_API_URL + '/preview-email';
 		const res = await fetch(url, requestOptions);
-		const { body, subject } = await res.json();
-		return { body, subject };
+		const { body, subject, toEmail } = await res.json();
+		return { body, subject, toEmail };
 	} catch (error) {
 		console.log(error);
 	}

@@ -21,8 +21,13 @@ export const TagWrapper = styled.div`
 `;
 
 export const SubTitle = styled.div`
-	font-size: 1rem;
+	font-size: 1.5rem;
 	color: #323232;
 	font-weight: bold;
 	margin: 1rem 0 0.25rem 0;
+`;
+
+export const PreviewSwitcher = styled.div`
+	display: flex;
+	justify-content: right;
 `;

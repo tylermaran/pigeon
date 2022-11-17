@@ -49,12 +49,15 @@ app.post('/test-connection', async (req, res, next) => {
 });
 
 app.post('/preview-email', async (req, res, next) => {
-	const { template, queryData } = req.body;
-	console.log(req.body);
-	const test = queryData.result[0];
-	const body = formatTemplate({ source: template.body, data: test });
-	const subject = formatTemplate({ source: template.subject, data: test });
-	return res.status(200).json({ body, subject });
+	const { activeCampaign, previewIndex } = req.body;
+	const { template, queryData } = activeCampaign;
+	const previewRow = queryData.result[previewIndex];
+	const body = formatTemplate({ source: template.body, data: previewRow });
+	const subject = formatTemplate({
+		source: template.subject,
+		data: previewRow,
+	});
+	return res.status(200).json({ body, subject, toEmail: previewRow.email });
 });
 
 app.post('/send-email', async (req, res, next) => {
