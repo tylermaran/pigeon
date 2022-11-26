@@ -60,7 +60,9 @@ const QueryView = ({
 					<StepNav>
 						<StyledButton disabled>ᐊ Back</StyledButton>
 						<StyledButton
-							disabled={queryData.templateValues?.length < 1}
+							disabled={
+								queryData.templateValues?.length < 1 || !sources
+							}
 							onClick={() => setStep(1)}
 						>
 							Template ᐅ

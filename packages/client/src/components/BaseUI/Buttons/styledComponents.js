@@ -6,6 +6,7 @@ export const StyledButton = styled.button`
 	border: none;
 	color: white;
 	padding: 0.5rem 2rem;
+	font-size: 1.2rem;
 
 	:hover {
 		cursor: ${({ disabled }) => (disabled ? 'inherit' : 'pointer')};

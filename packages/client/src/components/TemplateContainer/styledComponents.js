@@ -6,7 +6,7 @@ export const StyledEmailBody = styled.textarea`
 	box-sizing: border-box;
 	color: white;
 	font-size: 1rem;
-	min-height: 20rem;
+	min-height: 30rem;
 	padding: 0.5rem;
 	resize: none;
 	width: 100%;

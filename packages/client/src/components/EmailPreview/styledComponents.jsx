@@ -23,3 +23,10 @@ export const EmailBody = styled.div`
 	height: 100%;
 	padding: 1rem;
 `;
+
+export const SubHeader = styled.div`
+	color: grey;
+	font-size: 1rem;
+	font-weight: 400;
+	margin-left: 0.5rem;
+`;

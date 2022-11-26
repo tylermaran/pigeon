@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const PigeonLogo = styled.div`
-	font-size: 4rem;
-	user-select: none;
+export const PigeonLogo = styled.img`
+	height: 6rem;
+	width: 6rem;
 	:hover {
 		cursor: pointer;
 		-moz-transform: scale(-1, 1);
