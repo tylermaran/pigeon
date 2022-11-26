@@ -32,6 +32,19 @@ const Dashboard = () => {
 						Right now there's no DB attached. Database connections /
 						API keys are stored in local storage, and sent along
 						with queries.
+						<br />
+						<br />
+						<iframe
+							width="560"
+							height="315"
+							src="https://www.youtube.com/embed/SS58Rvr-sJE?start=2"
+							title="YouTube video player"
+							frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen
+						></iframe>
+						<br />
+						<br />
 						<SubHeader>State of development</SubHeader>
 						<StyledUl>
 							<li>
