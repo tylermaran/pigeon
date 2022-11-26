@@ -100,7 +100,7 @@ const DataSources = () => {
 					/>
 					<SourceContainer
 						image={'./mysql.png'}
-						title="MySQL"
+						title="MySQL - Coming soon"
 						active={false}
 						handleClick={() => handleModal('mysql')}
 					/>

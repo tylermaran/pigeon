@@ -17,6 +17,7 @@ const EmailProviders = () => {
 		API_KEY: '',
 		URL: '',
 		TYPE: '',
+		FROM_EMAIL: '',
 	};
 	const { user, setUser } = useUserContext();
 	const [postmarkOpen, setPostmarkOpen] = useState(false);
@@ -104,7 +105,7 @@ const EmailProviders = () => {
 					/>
 					<SourceContainer
 						image={'./courier.png'}
-						title="Courier"
+						title="Courier - Coming soon"
 						active={false}
 						handleClick={() => handleModal('COURIER')}
 					/>

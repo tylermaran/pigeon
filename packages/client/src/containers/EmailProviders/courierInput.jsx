@@ -4,7 +4,7 @@ import { InputContainer } from './styledComponents';
 export const courierInput = ({ form, handleInput, handleSubmit }) => {
 	return (
 		<InputContainer>
-			<h2>Courier</h2>
+			<h2>Courier (COMING SOON)</h2>
 			<br></br>
 			NICKNAME
 			<input
@@ -19,7 +19,9 @@ export const courierInput = ({ form, handleInput, handleSubmit }) => {
 			<br></br>
 			<br></br>
 			<br></br>
-			<PrimaryButton onClick={handleSubmit}>Save</PrimaryButton>
+			<PrimaryButton disabled onClick={handleSubmit}>
+				Save
+			</PrimaryButton>
 		</InputContainer>
 	);
 };
