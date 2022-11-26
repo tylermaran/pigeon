@@ -59,7 +59,10 @@ const TemplateView = ({
 						<StyledButton onClick={() => setStep(0)}>
 							ᐊ Edit Query
 						</StyledButton>
-						<StyledButton onClick={() => setStep(2)}>
+						<StyledButton
+							disabled={!emailProviders.length > 0}
+							onClick={() => setStep(2)}
+						>
 							Preview & Send ᐅ
 						</StyledButton>
 					</StepNav>
