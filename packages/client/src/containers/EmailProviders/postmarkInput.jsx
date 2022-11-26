@@ -14,10 +14,12 @@ export const postmarkInput = ({ form, handleInput, handleSubmit }) => {
 			/>
 			API_KEY
 			<input name="API_KEY" value={form.API_KEY} onChange={handleInput} />
-			URL
-			<input name="URL" value={form.URL} onChange={handleInput} />
 			FROM EMAIL
-			<input name="URL" value={form.FROM_EMAIL} onChange={handleInput} />
+			<input
+				name="FROM_EMAIL"
+				value={form.FROM_EMAIL}
+				onChange={handleInput}
+			/>
 			<br></br>
 			<br></br>
 			<br></br>

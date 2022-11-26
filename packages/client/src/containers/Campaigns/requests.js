@@ -53,9 +53,8 @@ export const sendEmail = async ({ activeCampaign }) => {
 
 	try {
 		const url = process.env.REACT_APP_API_URL + '/send-email';
-		const res = await fetch(url, requestOptions);
-		const { data, error } = await res.json();
-		return { data, message: error };
+		await fetch(url, requestOptions);
+		return 'ok';
 	} catch (error) {
 		console.log(error);
 	}

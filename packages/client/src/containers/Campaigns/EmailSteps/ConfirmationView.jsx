@@ -12,12 +12,17 @@ import { SubTitle, PreviewSwitcher } from './styledComponents';
 
 const ConfirmationView = ({ activeCampaign, updateCampaign, setStep }) => {
 	const [preview, setPreview] = useState({ subject: '', body: '' });
+	const [buttonText, setButtonText] = useState('Send Now');
 	const [previewIndex, setPreviewIndex] = useState(0);
+	const [loading, setLoading] = useState(false);
+
 	const { queryData, source, provider } = activeCampaign;
 
-	console.log(previewIndex);
 	const handleSend = async () => {
+		setLoading(true);
+		setButtonText('Sending! 📧');
 		await sendEmail({ activeCampaign });
+		setButtonText('Delivered! ✅');
 	};
 
 	const fetchPreview = async () => {
@@ -71,8 +76,11 @@ const ConfirmationView = ({ activeCampaign, updateCampaign, setStep }) => {
 						body={preview.body}
 					/>
 
-					<StyledButton onClick={() => handleSend()}>
-						Send now
+					<StyledButton
+						disabled={loading}
+						onClick={() => handleSend()}
+					>
+						{buttonText}
 					</StyledButton>
 				</Column>
 			</ColumnWrapper>

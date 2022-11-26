@@ -15,7 +15,6 @@ const EmailProviders = () => {
 	const initialState = {
 		NICKNAME: '',
 		API_KEY: '',
-		URL: '',
 		TYPE: '',
 		FROM_EMAIL: '',
 	};

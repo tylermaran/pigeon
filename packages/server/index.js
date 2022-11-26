@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-// const { resolve } = require('path');
 const app = express();
 
 app.use(express.json());
@@ -17,6 +16,8 @@ app.get('/', (req, res, next) => {
 });
 
 app.post('/query', async (req, res, next) => {
+	console.log('new_query');
+	console.log(req.body);
 	const { source, query } = req.body;
 
 	try {
@@ -49,6 +50,8 @@ app.post('/test-connection', async (req, res, next) => {
 });
 
 app.post('/preview-email', async (req, res, next) => {
+	console.log('preview_email');
+	console.log(req.body);
 	const { activeCampaign, previewIndex } = req.body;
 	const { template, queryData } = activeCampaign;
 	const previewRow = queryData.result[previewIndex];
@@ -61,6 +64,8 @@ app.post('/preview-email', async (req, res, next) => {
 });
 
 app.post('/send-email', async (req, res, next) => {
+	console.log('send_email');
+	console.log(req.body);
 	const { provider, template, query, source } = req.body;
 
 	// Run query again to get full data
@@ -69,24 +74,25 @@ app.post('/send-email', async (req, res, next) => {
 		query,
 	});
 
-	const test = rows[0];
-	const body = formatTemplate({ source: template.body, data: test });
-	const subject = formatTemplate({ source: template.subject, data: test });
+	for (let i = 0; i < rows.length; i++) {
+		const body = formatTemplate({ source: template.body, data: rows[i] });
+		const subject = formatTemplate({
+			source: template.subject,
+			data: rows[i],
+		});
 
-	await sendEmail({
-		email: 'tyler.maran@gmail.com',
-		htmlBody: body,
-		secretKey: provider.API_KEY,
-		subject: subject,
-		textBody: body,
-	});
+		await sendEmail({
+			email: rows[i].email,
+			htmlBody: body,
+			secretKey: provider.API_KEY,
+			subject: subject,
+			textBody: body,
+			fromEmail: provider.FROM_EMAIL,
+		});
+	}
 
-	return res.status(200);
+	return res.status(200).send();
 });
-
-// const outputPath = resolve(process.cwd(), '../client/build');
-// app.use('/', express.static(outputPath));
-// app.get('*', (req, res) => res.sendFile(resolve(outputPath, 'index.html')));
 
 app.use((req, res, next) => {
 	const error = new Error('Not Found');

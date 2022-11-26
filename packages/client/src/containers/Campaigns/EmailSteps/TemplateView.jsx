@@ -29,7 +29,7 @@ const TemplateView = ({
 		return (
 			<SourceContainer
 				key={`${TYPE}-${NICKNAME}`}
-				image={'./postgres.png'}
+				image={'./postmark.png'}
 				title={`${TYPE}-${NICKNAME}`}
 				active={
 					activeCampaign.provider &&

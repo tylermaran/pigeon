@@ -24,12 +24,14 @@ const Dashboard = () => {
 						<br />
 						Usually I just run a query, and write a script to look
 						though and send the notification. But I figured I could
-						build a better solution!
+						build a better solution! This is very much an MVP, so
+						things are pretty fragile. But it works great for
+						Postgres/Postmark!
 						<br />
 						<br />
-						Right now there's no DB attached. Data connections/keys
-						are stored in local storage, and sent along with
-						queries.
+						Right now there's no DB attached. Database connections /
+						API keys are stored in local storage, and sent along
+						with queries.
 						<SubHeader>State of development</SubHeader>
 						<StyledUl>
 							<li>
