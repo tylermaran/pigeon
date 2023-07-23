@@ -4,6 +4,9 @@
 
 <image src="./screenshot.png">
 
+https://pigeon-dev.netlify.app/
+
+
 I've frequently run into the issue of wanting to email a subset of users out of a database. Usually I just run a query, and write a script to look though and send the notification. But I figured I could build a better solution!
 
 Right now there's no DB attached. Data connections/keys are stored in local storage, and sent along with queries. Will work on user permanence later.
